@@ -69,5 +69,26 @@ extract_eq(model = high_lm, use_coefs = TRUE, coef_digits = 5)
 
 low_mb <- function(x){23.37-.00011*x}
 high_mb <- function(x){31.16 - 5.202e-05*x}
+
+
+# to add the demands to find aggregate demand
+
+low_lm_q <- lm(q_low_kwh ~ price_cents, 
+             data = co2_cost)
+
+
+high_lm_q <- lm(q_high_kwh ~ price_cents, 
+             data = co2_cost)
+
+extract_eq(model = low_lm_q, use_coefs = TRUE)
+extract_eq(model = high_lm_q, use_coefs = TRUE)
+
+# 191672.48 + 584850.4 + (-7722.83+17716.67 price)
+
+# Qagg = 776522.88 - 25439.5P
+# P agg = 776522.88/25439.5 - Q/25439.5
+
+# FOR DEMAND AGG P = 30.52 - 3.93e-5Q
+
 ```
 
