@@ -1,0 +1,73 @@
+---
+title: "beepboop"
+author: "Sarah Hamilton, Carleigh Olsen, and Maggie Hammond"
+date: "5/2/2022"
+output: 
+  html_document:
+    theme: flatly
+    code_folding: hide
+---
+
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(equatiomatic)
+library(broom)
+library(ggpubr)
+
+```
+
+
+```{r}
+co2_cost <- read_csv(here("HW3_data.csv")) %>% 
+  clean_names()
+```
+
+
+```{r}
+
+co2_cost_income <- co2_cost %>% 
+  pivot_longer(cols = c(q_low_kwh, q_high_kwh),
+               names_to = 'income',
+               values_to = 'q_kwh') %>% 
+  mutate(income = case_when(
+    income == "q_low_kwh" ~ "Low",
+    income == "q_high_kwh" ~ "High"
+  ))
+
+ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
+  geom_point(aes(color = income)) +
+  scale_color_manual(values = c('orange', 'purple2')) +
+  stat_function(fun = low_mb, color = "purple2") +
+  stat_function(fun = high_mb, color = "orange") +
+  ylim(0, 50) +
+  labs(x = "Quantity KwH",
+       y = "Price per KwH",
+       color = "Income Level") +
+  theme_minimal()
+```
+
+
+# Create Marginal Demand Linear Regression Model
+
+```{r}
+low_lm <- lm(price_cents ~ q_low_kwh, 
+             data = co2_cost)
+
+# coefficients: intercept 23.3709671, Q coefficient -0.0001102
+
+high_lm <- lm(price_cents ~ q_high_kwh, 
+              data = co2_cost)
+
+# coefficients: intercept 31.61, Q coefficient -5.202e-05
+
+extract_eq(model = low_lm, use_coefs = TRUE, coef_digits = 5)
+extract_eq(model = high_lm, use_coefs = TRUE, coef_digits = 5)
+
+low_mb <- function(x){23.37-.00011*x}
+high_mb <- function(x){31.16 - 5.202e-05*x}
+```
+
