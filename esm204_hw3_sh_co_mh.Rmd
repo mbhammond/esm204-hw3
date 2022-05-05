@@ -1,6 +1,6 @@
 ---
 title: "beepboop"
-author: "Sarah Hamilton, Carleigh Olsen, and Maggie Hammond"
+author: "Sarah Hamilton, Carleigh Osen, and Maggie Hammond"
 date: "5/2/2022"
 output: 
   html_document:
@@ -44,8 +44,8 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
   stat_function(fun = low_mb, color = "purple2") +
   stat_function(fun = high_mb, color = "orange") +
   ylim(0, 50) +
-  labs(x = "Quantity KwH",
-       y = "Price per KwH",
+  labs(x = "Quantity kWh",
+       y = "Price per kWh",
        color = "Income Level") +
   theme_minimal()
 ```
