@@ -81,6 +81,8 @@ extract_eq(model = high_lm_q, use_coefs = TRUE)
 
 ```
 
+# Plot the Low and High Income Demand Curves
+
 ```{r}
 #plot the functions
 ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
@@ -95,9 +97,11 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
   theme_minimal()
 ```
 
+# Calculate Aggregate Demand and Supply Curves and Plot Them
+
 ```{r}
 #Sarah's work below
-#Aggregate demand function
+#Question 2: Aggregate demand function
 d_agg <- function(x){28.7-x/29091}
 
 #MEC function
@@ -127,8 +131,116 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
   theme_minimal()
 ```
 
+# Calculate CS, PS, and Environmental Costs
+
 ```{r}
+#Functions to calculate CS, PS, and Environmental Costs
+
+#Free Market equilibrium (units of cents and kWh)
+p_free <- 10
+q_free <- 544745
+
+q_free_high <- 423200
+q_free_low <-121545
+
+#Socially optimal equilibrium
+p_social <- 11.15
+q_social <- 510550
+
+q_social_high <- 400200
+q_social_low <- 111091
+
+#Agg Consumer Surplus using MSC
+cs_msc <- function(p_social, q_social, q_social_high, q_social_low){
+  
+  cs_high <- 0.5*(high_mb(0)-p_social)*q_social_high
+  cs_low <- 0.5*(low_mb(0)-p_social)*q_social_low
+  cs_agg <- cs_low + cs_high
+  
+  return(cs_agg) #cs_high, cs_low, 
+}
+
+#Agg Producer Surplus using MSC
+ps_msc <- function(p_social, q_social){
+  
+  ps_agg <- 0.5*(p_social-msc(0))*q_social
+  
+  return(ps_agg)
+}
+
+#Agg Consumer Surplus using MPC
+cs_mpc <- function(p_free, q_free, q_free_high, q_free_low){
+  
+  cs_high <- 0.5*(high_mb(0)-p_free)*q_free_high
+  cs_low <- 0.5*(low_mb(0)-p_free)*q_free_low
+  cs_agg <- cs_low + cs_high
+  
+  return(cs_agg) #cs_high, cs_low, 
+}
+
+#Agg Producer Surplus using MPC
+ps_mpc <- function(p_free, q_free){
+  
+  ps_agg <- 0.5*(p_free-mpc(0))*q_free
+  
+  return(ps_agg)
+}
+
+#Total Environmental Costs using MEC
+env_costs <- function(q){
+  ec <- q*mec(q)
+  
+  return(ec)
+}
+
+#Question 2 (cont.)
+#Benefit to consumers and producers under status quo
+consumer_benefit_sq <- cs_mpc(p_free, q_free, q_free_high, q_free_low)
+producer_benefit_sq <- ps_mpc(p_free, q_free)
+
+#Total environmental costs under status quo
+total_environmental_cost <- env_costs(q_free)
+```
+
+Question 2 (cont.): Under status quo, consumer surplus is `r consumer_benefit_sq` cents and producer surplus is `r consumer_benefit_sq` cents. The total environmental cost under status quo is `r total_environmental_cost` cents.
+
+# Calculate High and Low Income Consumer Benefits
+
+```{r}
+#Question 3
+#Agg Consumer Surplus for HIGH income using MPC
+cs_mpc_high <- function(p_free, q_free, q_free_high){
+  
+  cs_high <- 0.5*(high_mb(0)-p_free)*q_free_high
+  
+  return(cs_high)
+}
+
+#Agg Consumer Surplus for LOW income using MPC
+cs_mpc_low <- function(p_free, q_free, q_free_low){
+  
+  cs_low <- 0.5*(low_mb(0)-p_free)*q_free_low
+
+  return(cs_low)
+}
+
+consumer_benefit_sq_high <- cs_mpc_high(p_free, q_free, q_free_high)
+consumer_benefit_sq_low <- cs_mpc_low(p_free, q_free, q_free_low)
 
 ```
+
+Question 3 (cont.): The consumer benefit for high income consumers is `r consumer_benefit_sq_high` cents while the consumer benefit for low income consumers is `r consumer_benefit_sq_low` cents. High income consumers have a significantly higher benefit. 
+
+# Derive the Optimal Tax 
+
+The optimal tax is equal to the marginal external cost at the socially optimal equilibrium. Because the marginal external cost is constant at the social cost of carbon, the optimal tax is equal to the social cost of carbon. Therefore the optimal tax for a SCC of $51 per metric ton of CO2 is 1.96 cents. 
+
+
+
+
+
+
+
+
 
 
