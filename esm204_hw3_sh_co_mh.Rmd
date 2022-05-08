@@ -37,17 +37,6 @@ co2_cost_income <- co2_cost %>%
     income == "q_low_kwh" ~ "Low",
     income == "q_high_kwh" ~ "High"
   ))
-
-ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
-  geom_point(aes(color = income)) +
-  scale_color_manual(values = c('orange', 'purple2')) +
-  stat_function(fun = low_mb, color = "purple2") +
-  stat_function(fun = high_mb, color = "orange") +
-  ylim(0, 50) +
-  labs(x = "Quantity kWh",
-       y = "Price per kWh",
-       color = "Income Level") +
-  theme_minimal()
 ```
 
 
@@ -90,5 +79,19 @@ extract_eq(model = high_lm_q, use_coefs = TRUE)
 
 # FOR DEMAND AGG P = 30.52 - 3.93e-5Q
 
+```
+
+```{r}
+#plot the functions
+ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
+  geom_point(aes(color = income)) +
+  scale_color_manual(values = c('orange', 'purple2')) +
+  stat_function(fun = low_mb, color = "purple2") +
+  stat_function(fun = high_mb, color = "orange") +
+  ylim(0, 50) +
+  labs(x = "Quantity kWh",
+       y = "Price per kWh",
+       color = "Income Level") +
+  theme_minimal()
 ```
 
