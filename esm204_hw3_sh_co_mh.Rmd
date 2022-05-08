@@ -233,10 +233,55 @@ Question 3 (cont.): The consumer benefit for high income consumers is `r consume
 
 # Derive the Optimal Tax 
 
-The optimal tax is equal to the marginal external cost at the socially optimal equilibrium. Because the marginal external cost is constant at the social cost of carbon, the optimal tax is equal to the social cost of carbon. Therefore the optimal tax for a SCC of $51 per metric ton of CO2 is 1.96 cents. 
+The optimal tax is equal to the marginal external cost at the socially optimal equilibrium. Because the marginal external cost is constant at the social cost of carbon, the optimal tax is equal to the social cost of carbon. Therefore the optimal tax for a SCC of $51 per metric ton of CO2 is *1.96 cents per kWh*. 
 
+```{r}
+#Effect of tax on the amount of electricity produced and consumed (change in Q)
+q_change <- q_free - q_social
 
+#Effect of tax on the price of electricity (change in P)
+p_change <- p_social - p_free
 
+#Effect of tax on overall welfare of high income consumers
+cs_msc_high <- function(p_social, q_social, q_social_high){
+  
+  cs_high <- 0.5*(high_mb(0)-p_social)*q_social_high
+
+  return(cs_high)
+}
+
+consumer_benefit_social_high <- cs_msc_high(p_social, q_social, q_social_high)
+high_income_change <- consumer_benefit_sq_high - consumer_benefit_social_high
+
+#Effect of tax on overall welfare of low income consumers
+cs_msc_low <- function(p_social, q_social, q_social_low){
+  
+  cs_low <- 0.5*(low_mb(0)-p_social)*q_social_low
+
+  return(cs_low) #cs_high, cs_low, 
+}
+consumer_benefit_social_low <- cs_msc_low(p_social, q_social, q_social_low)
+low_income_change <- consumer_benefit_sq_low - consumer_benefit_social_low
+
+#Effect of tax on overall welfare of electricity producers
+producer_change <- ps_mpc(p_free, q_free) - ps_msc(p_social, q_social)
+
+#Effect of tax on total environmental damage
+env_costs_change <- env_costs(q_free) - env_costs(q_social)
+
+#Effect of tax on total tax revenue generated
+tax_rev <- q_social*mec(q_social)
+
+```
+
+Question 4: 
+- Effect of tax on the amount of electricity produced and consumed: `r q_change` kWh LESS are produced and consumed.
+- Effect of tax on the price of electricity: Electricity is `r p_change` cents more expensive per kWh.
+- Effect of tax on overall welfare of high income consumers: High income consumers get `r high_income_change` cents less of surplus.
+- Effect of tax on overall welfare of low income consumers: Low income consumers get `r low_income_change` cents less of surplus.
+- Effect of tax on overall welfare of electricity producers: Producers get `r producer_change` cents less of surplus.
+- Effect of tax on total environmental damage: Environmental damage decreases by `r env_costs_change` cents.
+- Effect of tax on total tax revenue generated: Tax revenue will increase by `r tax_rev` cents. 
 
 
 
