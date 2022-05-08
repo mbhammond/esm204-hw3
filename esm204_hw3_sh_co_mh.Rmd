@@ -75,7 +75,7 @@ extract_eq(model = high_lm_q, use_coefs = TRUE)
 # 191672.48 + 584850.4 + (-7722.83+17716.67 price)
 
 # Qagg = 776522.88 - 25439.5P
-# P agg = 776522.88/25439.5 - Q/25439.5
+# Pagg = 776522.88/25439.5 - Q/25439.5
 
 # FOR DEMAND AGG P = 30.52 - 3.93e-5Q
 
@@ -100,17 +100,23 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
 # Calculate Aggregate Demand and Supply Curves and Plot Them
 
 ```{r}
-#Sarah's work below
 #Question 2: Aggregate demand function
+#Qagg = Ql+Qh = (23.37-Pl)/0.00011 + (31.16-Ph)/0.00005
+#Rearranged: Pagg = 28.7-Qagg/29091
 d_agg <- function(x){28.7-x/29091}
 
 #MEC function
+#Calculated by converting $51/ton to cents/kWh:
+#5100 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 1.96 cents/kWh
 mec <- function(x){1.96}
 
 #MPC function
+#Calculated using the point (0,0) and equilibrium, where P=10 cents (544745, 10).
+#Qagg(10 cents) = 835655-29091*10 = 544745 kWh
 mpc <- function(x){0.000018*x}
 
 #MSC function (MPC+MEC)
+#Calculated by adding MEC to MPC
 msc <- function(x){0.000018*x+1.96}
 
 #Plot all functions
@@ -275,13 +281,21 @@ tax_rev <- q_social*mec(q_social)
 ```
 
 Question 4: 
+
 - Effect of tax on the amount of electricity produced and consumed: `r q_change` kWh LESS are produced and consumed.
+
 - Effect of tax on the price of electricity: Electricity is `r p_change` cents more expensive per kWh.
+
 - Effect of tax on overall welfare of high income consumers: High income consumers get `r high_income_change` cents less of surplus.
+
 - Effect of tax on overall welfare of low income consumers: Low income consumers get `r low_income_change` cents less of surplus.
+
 - Effect of tax on overall welfare of electricity producers: Producers get `r producer_change` cents less of surplus.
+
 - Effect of tax on total environmental damage: Environmental damage decreases by `r env_costs_change` cents.
+
 - Effect of tax on total tax revenue generated: Tax revenue will increase by `r tax_rev` cents. 
+
 
 
 
