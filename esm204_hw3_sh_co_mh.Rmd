@@ -1,5 +1,5 @@
 ---
-title: "beepboop"
+title: "ESM 204 HW 3"
 author: "Sarah Hamilton, Carleigh Osen, and Maggie Hammond"
 date: "5/2/2022"
 output: 
@@ -90,8 +90,45 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
   stat_function(fun = high_mb, color = "orange") +
   ylim(0, 50) +
   labs(x = "Quantity kWh",
-       y = "Price per kWh",
+       y = "Price (cents) per kWh",
        color = "Income Level") +
   theme_minimal()
 ```
+
+```{r}
+#Sarah's work below
+#Aggregate demand function
+d_agg <- function(x){28.7-x/29091}
+
+#MEC function
+mec <- function(x){1.96}
+
+#MPC function
+mpc <- function(x){0.000018*x}
+
+#MSC function (MPC+MEC)
+msc <- function(x){0.000018*x}
+
+#Plot all functions
+ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
+  geom_point(aes(color = income)) +
+  scale_color_manual(values = c('orange', 'purple2', 'yellow', 'blue', 'green', 'pink')) +
+  stat_function(fun = low_mb, color = "purple2") +
+  stat_function(fun = high_mb, color = "orange") +
+  stat_function(fun = d_agg, color = 'yellow') +
+  stat_function(fun = mec, color = 'blue') +
+  stat_function(fun = mpc, color = 'green') +
+  stat_function(fun = msc, color = 'pink') +
+  ylim(0, 50) +
+  xlim(0, 1000000) +
+  labs(x = "Quantity kWh",
+       y = "Price (cents) per kWh",
+       color = "Income Level") +
+  theme_minimal()
+```
+
+```{r}
+
+```
+
 
