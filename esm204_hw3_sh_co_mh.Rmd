@@ -107,7 +107,7 @@ mec <- function(x){1.96}
 mpc <- function(x){0.000018*x}
 
 #MSC function (MPC+MEC)
-msc <- function(x){0.000018*x}
+msc <- function(x){0.000018*x+1.96}
 
 #Plot all functions
 ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
