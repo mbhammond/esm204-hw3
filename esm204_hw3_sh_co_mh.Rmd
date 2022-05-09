@@ -208,7 +208,7 @@ producer_benefit_sq <- ps_mpc(p_free, q_free)
 total_environmental_cost <- env_costs(q_free)
 ```
 
-Question 2 (cont.): Under status quo, consumer surplus is `r consumer_benefit_sq` cents and producer surplus is `r consumer_benefit_sq` cents. The total environmental cost under status quo is `r total_environmental_cost` cents.
+Question 2 (cont.): Under status quo, consumer surplus is `r consumer_benefit_sq` cents and producer surplus is `r producer_benefit_sq` cents. The total environmental cost under status quo is `r total_environmental_cost` cents.
 
 # Calculate High and Low Income Consumer Benefits
 
