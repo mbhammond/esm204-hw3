@@ -277,8 +277,10 @@ cs_msc_low <- function(p_social, q_social, q_social_low){
 
   return(cs_low) #cs_high, cs_low, 
 }
-consumer_benefit_social_low <- cs_msc_low(p_social, q_social, q_social_low)
-low_income_change <- consumer_benefit_sq_low - consumer_benefit_social_low
+consumer_benefit_social_low <- cs_msc_low(p_social, q_social, q_social_low) - env_costs(q_social) 
+#subtract environmental costs from social scenario because low income people bear the burden
+low_income_change <- consumer_benefit_sq_low - env_costs(q_free) - consumer_benefit_social_low 
+#subtract environmental costs from status quo scenario too because low income people bear the burden
 
 #Effect of tax on overall welfare of electricity producers
 producer_change <- ps_mpc(p_free, q_free) - ps_msc(p_social, q_social)
