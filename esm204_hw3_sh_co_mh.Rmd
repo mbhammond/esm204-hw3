@@ -310,6 +310,24 @@ Question 4:
 
 
 
+```{r}
+#MEC function
+#Calculated by converting $75/ton to cents/kWh:
+#7500 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  2.89 cents/kWh
+
+#MEC function
+#Calculated by converting $100/ton to cents/kWh:
+#10000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  3.86 cents/kWh
+
+#MEC function
+#Calculated by converting $125/ton to cents/kWh:
+#12500 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  4.82 cents/kWh
+
+#MEC function
+#Calculated by converting $150/ton to cents/kWh:
+#15000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 5.78 cents/kWh
+```
+
 
 
 
