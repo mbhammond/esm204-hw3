@@ -235,7 +235,7 @@ d_agg &lt;- function(x){28.7-x/29091}
 #MEC function
 #Calculated by converting $51/ton to cents/kWh:
 #5100 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 1.96 cents/kWh
-mec &lt;- function(x){2.89}
+mec &lt;- function(x){5.78}
 
 #MPC function
 #Calculated using the point (0,0) and equilibrium, where P=10 cents (544745, 10).
@@ -244,7 +244,7 @@ mpc &lt;- function(x){0.000018*x}
 
 #MSC function (MPC+MEC)
 #Calculated by adding MEC to MPC
-msc &lt;- function(x){0.000018*x+2.89}</code></pre>
+msc &lt;- function(x){0.000018*x+5.78}</code></pre>
 <pre class="r"><code>#Functions to calculate CS, PS, and Environmental Costs
 
 #Free Market equilibrium (units of cents and kWh)
@@ -403,13 +403,13 @@ tax_rev &lt;- q_social*mec(q_social)</code></pre>
 <li><p>Effect of tax on the amount of electricity produced and consumed: 1.07131^{5} kWh LESS are produced and consumed.</p></li>
 <li><p>Effect of tax on the price of electricity: Electricity is 3.66 cents more expensive per kWh.</p></li>
 <li><p>Effect of tax on overall welfare of high income consumers: High income consumers get 1.5338772^{6} cents less of surplus.</p></li>
-<li><p>Effect of tax on overall welfare of low income consumers: Low income consumers get 7.435432^{4} cents less of surplus.</p></li>
-<li><p>Effect of tax on overall welfare of electricity producers: Producers get 3.6717361^{5} cents less of surplus.</p></li>
-<li><p>Effect of tax on total environmental damage: Environmental damage decreases by 3.0960859^{5} cents.</p></li>
-<li><p>Effect of tax on total tax revenue generated: Tax revenue will increase by 1.2647045^{6} cents.</p></li>
+<li><p>Effect of tax on overall welfare of low income consumers: Low income consumers get -2.3525427^{5} cents less of surplus.</p></li>
+<li><p>Effect of tax on overall welfare of electricity producers: Producers get 9.9952584^{5} cents less of surplus.</p></li>
+<li><p>Effect of tax on total environmental damage: Environmental damage decreases by 6.1921718^{5} cents.</p></li>
+<li><p>Effect of tax on total tax revenue generated: Tax revenue will increase by 2.5294089^{6} cents.</p></li>
 <li><p>**high income total welfare is 2.9435787^{6}</p></li>
-<li><p>**low income total welfare is -8.3613904^{5}</p></li>
-<li><p>**producer surplus is 2.3565514^{6}</p></li>
+<li><p>**low income total welfare is -2.1008435^{6}</p></li>
+<li><p>**producer surplus is 1.7241992^{6}</p></li>
 </ul>
 
 

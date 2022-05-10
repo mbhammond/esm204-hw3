@@ -80,7 +80,7 @@ d_agg <- function(x){28.7-x/29091}
 #MEC function
 #Calculated by converting $51/ton to cents/kWh:
 #5100 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 1.96 cents/kWh
-mec <- function(x){2.89}
+mec <- function(x){5.78}
 
 #MPC function
 #Calculated using the point (0,0) and equilibrium, where P=10 cents (544745, 10).
@@ -89,7 +89,7 @@ mpc <- function(x){0.000018*x}
 
 #MSC function (MPC+MEC)
 #Calculated by adding MEC to MPC
-msc <- function(x){0.000018*x+2.89}
+msc <- function(x){0.000018*x+5.78}
 ```
 
 
@@ -106,12 +106,12 @@ q_free_high <- 423200
 q_free_low <-121545
 
 #Socially optimal equilibrium
-p_social <- 11.76
-q_social <- 492793
+p_social <- 13.66
+q_social <- 437614
 
 
-q_social_high <- 372933 
-q_social_low <- 105545
+q_social_high <- 336409 
+q_social_low <- 88273
 
 #p_social_100 <- 12.40
 #q_social_100 <- 474293
