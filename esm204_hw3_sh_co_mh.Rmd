@@ -348,27 +348,47 @@ PUT ANSWER HERE
 
 
 ```{r}
-
+q5 <- read_csv(here("q5excel.csv")) %>% 
+  clean_names()
+#note to maggie: we probably dont wanna clean names here bc you formatted the excel names to be nice
 ```
 
 
-PUT BRIEF ANALYSIS HERE 
+PUT TABLE OF RESULTS AND BRIEF ANALYSIS HERE 
 
 
 # Effect of Home Solar Generation for High Income Groups
 
 ```{r}
-q5 <- read_csv(here("q5excel.csv")) %>% 
-  clean_names()
+#work for part C
+q5_clean <- q5 %>% 
+  clean_names() %>%
+  mutate(env_damage = mec*social_q_agg)
+
+env_damage_lm <- lm(env_damage ~ mec, data = q5_clean)
+extract_eq(model = env_damage_lm, use_coefs = TRUE, coef_digits = 5)
+env_damage_fun <- function(x){336638.6 + 382446.5 * x}
+
+#equation for environmental damage as a function of mec or tax
+#environmental damage = 336638.6 + 382446.5 * tax
+#if we set environmental damage = 664643 cents:
+tax_equal <- (664643 - 336638.6)/382446.5
+
+ggplot(data = q5_clean, aes(x = mec, y = env_damage)) +
+  geom_point(size = 3) +
+  labs(x = "Tax (cents per kWh)",
+       y = "Total Environmental Damage (cents)") +
+  theme_minimal() +
+  stat_function(fun = env_damage_fun, color = "blue")
+
+#by plugging the environmental damage from #5 in, we get a tax of 0.86 cants per kWh
+  
 ```
 
 Question 6: 
-PUT ANSWER HERE
 
-PUT BRIEF ANALYSIS HERE
+- insert part A answer here
 
-steps to solve: 
-- read in data of total environmental costs versus tax (determined from SCC)
-- plot total env costs vs tax
-- calculate a regression model for the data
-- use the regression equation to predict at what value of tax would the env costs equal 664643 cents *
+- insert part B answer here
+
+- To determine what value of the electricity tax makes the total environmental damage equal to that under the scenario of solar panels being available to the high income group, we plotted the environmental damages against the tax being applied from #5, fit a linear regression to the data, and then plugged in the environmental damages from #6B into the equation to solve for the tax required. The calculated tax is `r round(tax_equal,3)` cents per kWh. 
