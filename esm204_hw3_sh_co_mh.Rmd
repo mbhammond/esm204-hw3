@@ -352,5 +352,4 @@ steps to solve:
 - read in data of total environmental costs versus tax (determined from SCC)
 - plot total env costs vs tax
 - calculate a regression model for the data
-- use the regression equation to predict at what value of tax would the env costs equal 664643 cents 
-
+- use the regression equation to predict at what value of tax would the env costs equal 664643 cents *
