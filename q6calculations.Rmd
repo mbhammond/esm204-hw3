@@ -5,24 +5,64 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(equatiomatic)
+library(broom)
+library(ggpubr)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+low_mb <- function(x){(23.37) -.00011*x}
+high_mb <- function(x){(31.16/2) - 5.202e-05*x}
+d_agg <- function(x){18.081-3.53e-05*x}
+mec <- function(x){1.96}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+mpc <- function(x){0.000018*x}
+
+
+ggplot() +
+  scale_color_manual(values = c('orange', 'purple2', 'yellow', 'blue', 'green', 'pink')) +
+  stat_function(fun = low_mb, color = "purple2") +
+  stat_function(fun = high_mb, color = "orange") +
+  stat_function(fun = d_agg, color = 'yellow') +
+  stat_function(fun = mpc, color = 'green') +
+  stat_function(fun = mec, color = 'blue') +
+  ylim(0, 50) +
+  xlim(0, 1000000) +
+  labs(x = "Quantity (kWh)",
+       y = "Price per kWh (cents)",
+       color = "Income Level",
+      caption = "Figure 2: Supply and demand curves for electricity for a high and low income population.") +
+  theme_minimal()
 ```
 
-## Including Plots
+```{r}
+# find the total electricity consumption
 
-You can also embed plots, for example:
+#equilibrium between MPC and new Dagg
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# new q free 339104
+
+#new p free 6.1039
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+a) The total electricity consumption under the new home solar generation is 339104 kWh.
+
+```{r}
+# find the total environmental externality
+
+# 1.96*339104 = 664643.84
+```
+
+b) The total environmental externality is 664643 cents, or $6,646.43
+
+```{r}
+
+```
+
+c) 
