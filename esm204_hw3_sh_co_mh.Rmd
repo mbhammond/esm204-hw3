@@ -310,7 +310,7 @@ Question 4:
 - Effect of tax on total tax revenue generated: Tax revenue will increase by `r tax_rev` cents. 
 
 
-
+# Welfare Effects of Varying Social Cost of Carbon
 
 ```{r}
 #MEC function
@@ -330,7 +330,21 @@ Question 4:
 #15000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 5.78 cents/kWh
 ```
 
+Question 5: 
+PUT ANSWER HERE
 
 
+PUT BRIEF ANALYSIS HERE 
 
+
+# Effect of Home Solar Generation for High Income Groups
+
+```{r}
+
+```
+
+Question 6: 
+PUT ANSWER HERE
+
+PUT BRIEF ANALYSIS HERE
 
