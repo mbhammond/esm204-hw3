@@ -377,9 +377,12 @@ tax_equal <- (664643 - 336638.6)/382446.5
 ggplot(data = q5_clean, aes(x = mec, y = env_damage)) +
   geom_point(size = 3) +
   labs(x = "Tax (cents per kWh)",
-       y = "Total Environmental Damage (cents)") +
+       y = "Total Environmental Damage (cents)",
+       title = "Environmental Damage vs Tax on Electricity") +
   theme_minimal() +
-  stat_function(fun = env_damage_fun, color = "blue")
+  stat_function(fun = env_damage_fun, color = "blue") +
+  xlim(0, 6) +
+  ylim(0, 3000000)
 
 #by plugging the environmental damage from #5 in, we get a tax of 0.86 cants per kWh
   
