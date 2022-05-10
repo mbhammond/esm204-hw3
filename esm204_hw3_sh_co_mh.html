@@ -495,8 +495,10 @@ cs_msc_low &lt;- function(p_social, q_social, q_social_low){
 
   return(cs_low) #cs_high, cs_low, 
 }
-consumer_benefit_social_low &lt;- cs_msc_low(p_social, q_social, q_social_low)
-low_income_change &lt;- consumer_benefit_sq_low - consumer_benefit_social_low
+consumer_benefit_social_low &lt;- cs_msc_low(p_social, q_social, q_social_low) - env_costs(q_social) 
+#subtract environmental costs from social scenario because low income people bear the burden
+low_income_change &lt;- consumer_benefit_sq_low - env_costs(q_free) - consumer_benefit_social_low 
+#subtract environmental costs from status quo scenario too because low income people bear the burden
 
 #Effect of tax on overall welfare of electricity producers
 producer_change &lt;- ps_mpc(p_free, q_free) - ps_msc(p_social, q_social)
@@ -511,11 +513,26 @@ tax_rev &lt;- q_social*mec(q_social)</code></pre>
 <li><p>Effect of tax on the amount of electricity produced and consumed: 3.4195^{4} kWh LESS are produced and consumed.</p></li>
 <li><p>Effect of tax on the price of electricity: Electricity is 1.15 cents more expensive per kWh.</p></li>
 <li><p>Effect of tax on overall welfare of high income consumers: High income consumers get 4.73455^{5} cents less of surplus.</p></li>
-<li><p>Effect of tax on overall welfare of low income consumers: Low income consumers get 1.3376232^{5} cents less of surplus.</p></li>
+<li><p>Effect of tax on overall welfare of low income consumers: Low income consumers get 6.6740115^{4} cents less of surplus.</p></li>
 <li><p>Effect of tax on overall welfare of electricity producers: Producers get 3.7774775^{5} cents less of surplus.</p></li>
 <li><p>Effect of tax on total environmental damage: Environmental damage decreases by 6.70222^{4} cents.</p></li>
 <li><p>Effect of tax on total tax revenue generated: Tax revenue will increase by 1.000678^{6} cents.</p></li>
 </ul>
+<pre class="r"><code>#MEC function
+#Calculated by converting $75/ton to cents/kWh:
+#7500 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  2.89 cents/kWh
+
+#MEC function
+#Calculated by converting $100/ton to cents/kWh:
+#10000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  3.86 cents/kWh
+
+#MEC function
+#Calculated by converting $125/ton to cents/kWh:
+#12500 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh =  4.82 cents/kWh
+
+#MEC function
+#Calculated by converting $150/ton to cents/kWh:
+#15000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 5.78 cents/kWh</code></pre>
 </div>
 
 

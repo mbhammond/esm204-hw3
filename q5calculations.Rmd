@@ -1,0 +1,289 @@
+---
+title: "q5calculations"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(equatiomatic)
+library(broom)
+library(ggpubr)
+```
+
+
+
+
+
+```{r}
+co2_cost <- read_csv(here("HW3_data.csv")) %>% 
+  clean_names()
+```
+
+
+```{r}
+#read in the data
+co2_cost_income <- co2_cost %>% 
+  pivot_longer(cols = c(q_low_kwh, q_high_kwh),
+               names_to = 'income',
+               values_to = 'q_kwh') %>% 
+  mutate(income = case_when(
+    income == "q_low_kwh" ~ "Low",
+    income == "q_high_kwh" ~ "High"
+  ))
+```
+
+
+
+```{r}
+low_lm <- lm(price_cents ~ q_low_kwh, 
+             data = co2_cost)
+
+# coefficients: intercept 23.3709671, Q coefficient -0.0001102
+
+high_lm <- lm(price_cents ~ q_high_kwh, 
+              data = co2_cost)
+
+# coefficients: intercept 31.61, Q coefficient -5.202e-05
+
+extract_eq(model = low_lm, use_coefs = TRUE, coef_digits = 5)
+extract_eq(model = high_lm, use_coefs = TRUE, coef_digits = 5)
+
+low_mb <- function(x){23.37-.00011*x}
+high_mb <- function(x){31.16 - 5.202e-05*x}
+
+
+# to add the demands to find aggregate demand
+
+low_lm_q <- lm(q_low_kwh ~ price_cents, 
+             data = co2_cost)
+
+
+high_lm_q <- lm(q_high_kwh ~ price_cents, 
+             data = co2_cost)
+
+extract_eq(model = low_lm_q, use_coefs = TRUE)
+extract_eq(model = high_lm_q, use_coefs = TRUE)
+```
+
+
+
+```{r}
+#Question 2: Aggregate demand function
+#Qagg = Ql+Qh = (23.37-Pl)/0.00011 + (31.16-Ph)/0.00005
+#Rearranged: Pagg = 28.7-Qagg/29091
+d_agg <- function(x){28.7-x/29091}
+
+#MEC function
+#Calculated by converting $51/ton to cents/kWh:
+#5100 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 1.96 cents/kWh
+mec <- function(x){2.89}
+
+#MPC function
+#Calculated using the point (0,0) and equilibrium, where P=10 cents (544745, 10).
+#Qagg(10 cents) = 835655-29091*10 = 544745 kWh
+mpc <- function(x){0.000018*x}
+
+#MSC function (MPC+MEC)
+#Calculated by adding MEC to MPC
+msc <- function(x){0.000018*x+2.89}
+```
+
+
+
+```{r}
+
+#Functions to calculate CS, PS, and Environmental Costs
+
+#Free Market equilibrium (units of cents and kWh)
+p_free <- 10
+q_free <- 544745
+
+q_free_high <- 423200
+q_free_low <-121545
+
+#Socially optimal equilibrium
+p_social <- 11.76
+q_social <- 492793
+
+
+q_social_high <- 372933 
+q_social_low <- 105545
+
+#p_social_100 <- 12.40
+#q_social_100 <- 474293
+
+
+#q_social_high_100 <- 360631
+#q_social_low_100 <- 99727
+  
+  
+#p_social_125 <- 13.03
+#q_social_125 <- 455944
+
+#q_social_high_125 <- 348520
+#q_social_low_125 <- 94000
+  
+#p_social_150 <- 13.66
+#q_social_150 <- 437614
+
+#q_social_high_150 <- 336409
+#q_social_low_150 <- 88273
+
+low_mb <- function(x){23.37-.00011*x}
+high_mb <- function(x){31.16 - 5.202e-05*x}
+
+
+#Agg Consumer Surplus using MSC
+cs_msc <- function(p_social, q_social, q_social_high, q_social_low){
+  
+  cs_high <- 0.5*(high_mb(0)-p_social)*q_social_high
+  cs_low <- 0.5*(low_mb(0)-p_social)*q_social_low
+  cs_agg <- cs_low + cs_high
+  
+  return(cs_agg) #cs_high, cs_low, 
+}
+
+#Agg Producer Surplus using MSC
+ps_msc <- function(p_social, q_social){
+  
+  ps_agg <- 0.5*(p_social-msc(0))*q_social
+  
+  return(ps_agg)
+}
+
+#Agg Consumer Surplus using MPC
+cs_mpc <- function(p_free, q_free, q_free_high, q_free_low){
+  
+  cs_high <- 0.5*(high_mb(0)-p_free)*q_free_high
+  cs_low <- 0.5*(low_mb(0)-p_free)*q_free_low
+  cs_agg <- cs_low + cs_high
+  
+  return(cs_agg) #cs_high, cs_low, 
+}
+
+#Agg Producer Surplus using MPC
+ps_mpc <- function(p_free, q_free){
+  
+  ps_agg <- 0.5*(p_free-mpc(0))*q_free
+  
+  return(ps_agg)
+}
+
+#Total Environmental Costs using MEC
+env_costs <- function(q){
+  ec <- q*mec(q)
+  
+  return(ec)
+}
+
+#Question 2 (cont.)
+#Benefit to consumers and producers under status quo
+consumer_benefit_sq <- cs_mpc(p_free, q_free, q_free_high, q_free_low)
+producer_benefit_sq <- ps_mpc(p_free, q_free)
+
+#Total environmental costs under status quo
+total_environmental_cost <- env_costs(q_free)
+
+
+
+#Question 3
+#Agg Consumer Surplus for HIGH income using MPC
+cs_mpc_high <- function(p_free, q_free, q_free_high){
+  
+  cs_high <- 0.5*(high_mb(0)-p_free)*q_free_high
+  
+  return(cs_high)
+}
+
+#Agg Consumer Surplus for LOW income using MPC
+cs_mpc_low <- function(p_free, q_free, q_free_low){
+  
+  cs_low <- 0.5*(low_mb(0)-p_free)*q_free_low
+
+  return(cs_low)
+}
+
+consumer_benefit_sq_high <- cs_mpc_high(p_free, q_free, q_free_high)
+consumer_benefit_sq_low <- cs_mpc_low(p_free, q_free, q_free_low)
+
+
+```
+
+
+Question 3 (cont.): The consumer benefit for high income consumers is `r consumer_benefit_sq_high` cents while the consumer benefit for low income consumers is `r consumer_benefit_sq_low` cents. High income consumers have a significantly higher benefit. 
+
+
+
+```{r}
+#Effect of tax on the amount of electricity produced and consumed (change in Q)
+q_change <- q_free - q_social
+
+#Effect of tax on the price of electricity (change in P)
+p_change <- p_social - p_free
+
+#Effect of tax on overall welfare of high income consumers
+cs_msc_high <- function(p_social, q_social, q_social_high){
+  
+  cs_high <- 0.5*(high_mb(0)-p_social)*q_social_high
+
+  return(cs_high)
+}
+
+consumer_benefit_social_high <- cs_msc_high(p_social, q_social, q_social_high)
+high_income_change <- consumer_benefit_sq_high - consumer_benefit_social_high
+
+#Effect of tax on overall welfare of low income consumers
+cs_msc_low <- function(p_social, q_social, q_social_low){
+  
+  cs_low <- 0.5*(low_mb(0)-p_social)*q_social_low
+
+  return(cs_low) #cs_high, cs_low, 
+}
+consumer_benefit_social_low <- cs_msc_low(p_social, q_social, q_social_low) - env_costs(q_social) 
+#subtract environmental costs from social scenario because low income people bear the burden
+low_income_change <- consumer_benefit_sq_low - env_costs(q_free) - consumer_benefit_social_low 
+#subtract environmental costs from status quo scenario too because low income people bear the burden
+
+#Effect of tax on overall welfare of electricity producers
+producer_change <- ps_mpc(p_free, q_free) - ps_msc(p_social, q_social)
+
+producer_surplus <- ps_msc(p_social, q_social)
+
+#Effect of tax on total environmental damage
+env_costs_change <- env_costs(q_free) - env_costs(q_social)
+
+#Effect of tax on total tax revenue generated
+tax_rev <- q_social*mec(q_social)
+
+```
+
+Question 4: 
+
+- Effect of tax on the amount of electricity produced and consumed: `r q_change` kWh LESS are produced and consumed.
+
+- Effect of tax on the price of electricity: Electricity is `r p_change` cents more expensive per kWh.
+
+- Effect of tax on overall welfare of high income consumers: High income consumers get `r high_income_change` cents less of surplus.
+
+- Effect of tax on overall welfare of low income consumers: Low income consumers get `r low_income_change` cents less of surplus.
+
+- Effect of tax on overall welfare of electricity producers: Producers get `r producer_change` cents less of surplus.
+
+- Effect of tax on total environmental damage: Environmental damage decreases by `r env_costs_change` cents.
+
+- Effect of tax on total tax revenue generated: Tax revenue will increase by `r tax_rev` cents. 
+
+- **high income total welfare is `r consumer_benefit_social_high`
+
+- **low income total welfare is `r consumer_benefit_social_low`
+
+- **producer surplus is `r producer_surplus`
+
+
+
+
+
