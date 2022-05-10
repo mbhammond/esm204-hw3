@@ -328,10 +328,24 @@ Question 4:
 #MEC function
 #Calculated by converting $150/ton to cents/kWh:
 #15000 cents/ton * 1 ton/2204.6 lb * 0.85 lb CO2/1 kWh = 5.78 cents/kWh
+
+consumer_benefit_social_high <- cs_msc_high(p_social, q_social, q_social_high)
+
+consumer_benefit_social_low <- cs_msc_low(p_social, q_social, q_social_low) - env_costs(q_social)
+
+producer_surplus <- ps_msc(p_social, q_social)
+
 ```
 
 Question 5: 
 PUT ANSWER HERE
+
+- **high income total welfare is `r consumer_benefit_social_high`
+
+- **low income total welfare is `r consumer_benefit_social_low`
+
+- **producer surplus is `r producer_surplus`
+
 
 ```{r}
 
