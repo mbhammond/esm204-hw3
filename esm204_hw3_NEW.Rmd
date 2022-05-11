@@ -396,12 +396,12 @@ q5_clean <- q5 %>%
 
 env_damage_lm <- lm(env_damage ~ mec, data = q5_clean)
 extract_eq(model = env_damage_lm, use_coefs = TRUE, coef_digits = 5)
-env_damage_fun <- function(x){336638.6 + 382446.5 * x} # NEED TO CHANGE THIS AFTER READING IN NEW CSV
+env_damage_fun <- function(x){336277.3 + 382492.3 * x} # NEED TO CHANGE THIS AFTER READING IN NEW CSV
 
 #equation for environmental damage as a function of mec or tax
 #environmental damage = 336638.6 + 382446.5 * tax
 #if we set environmental damage = 664643 cents:
-tax_equal <- (664643 - 336638.6)/382446.5 # NEED TO CHANGE THIS AFTER READING IN NEW CSV
+tax_equal <- (664643 - 336277.3)/382492.3 # NEED TO CHANGE THIS AFTER READING IN NEW CSV
 
 ggplot(data = q5_clean, aes(x = mec, y = env_damage)) +
   geom_point(size = 3) +
