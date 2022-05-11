@@ -25,6 +25,7 @@ library(janitor)
 library(equatiomatic)
 library(broom)
 library(ggpubr)
+library(kableExtra)
 
 ```
 
@@ -358,7 +359,7 @@ producer_surplus <- ps_msc(p_social, q_social)
 ```
 
 Question 5: 
-PUT ANSWER HERE
+The answer to question a, b, and c can be found in the table created in the code produced above. 
 
 - **high income consumer surplus is `r consumer_benefit_social_high/100` dollars.
 
@@ -380,15 +381,65 @@ PUT ANSWER HERE
 q5 <- read_csv(here("q5excel.csv")) %>% 
   clean_names()
 #note to maggie: we probably dont wanna clean names here bc you formatted the excel names to be nice
+
+
+
+q5 %>% 
+  kable(col.names = c("Social Cost Carbon",
+                      "MEC",
+                      "Social Quantity Agg",
+                      "Social Cost Agg",
+                      "Social Q Low",
+                      "Social Q High",
+                      "Producer Surplus",
+                      "High CS",
+                      "Low CS",
+                      "Tax Rev",
+                      "Percent Consumption High",
+                      "Percent Consumption Low",
+                     "Welfare High",
+                     "Welfare Low"),
+        digits = 2,
+        caption = 'Table 1. Table of All Calculated Values For Problem 5.') %>% 
+  kable_classic(bootstrap_options = "striped", full_width = FALSE)
+
+
 ```
 
 
-PUT TABLE OF RESULTS AND BRIEF ANALYSIS HERE 
 
 
 # Effect of Home Solar Generation for High Income Groups
 
 ```{r}
+
+
+#work for part A and B
+
+low_mb_solar <- function(x){(23.37) -.00011*x}
+high_mb_solar <- function(x){(31.16/2) - 5.202e-05*x}
+d_agg <- function(x){18.081-3.53e-05*x}
+mpc <- function(x){0.000018*x}
+
+
+ggplot() +
+  scale_color_manual(values = c('orange', 'purple2', 'yellow', 'blue', 'green', 'pink')) +
+  stat_function(fun = low_mb, color = "purple2") +
+  stat_function(fun = high_mb, color = "orange") +
+  stat_function(fun = d_agg, color = 'yellow') +
+  stat_function(fun = mpc, color = 'green') +
+  ylim(0, 50) +
+  xlim(0, 1000000) +
+  labs(x = "Quantity (kWh)",
+       y = "Price per kWh (cents)",
+       color = "Income Level",
+      caption = "Figure 2: Supply and demand curves for electricity for a high and low income population.") +
+  theme_minimal()
+
+# find the total electricity consumption, do this by finding the equilibrium between MPC and new Dagg
+# new q_free 339104
+# new p_free 6.1039
+
 #work for part C
 q5_clean <- q5 %>% 
   clean_names() %>%
@@ -419,8 +470,8 @@ ggplot(data = q5_clean, aes(x = mec, y = env_damage)) +
 
 Question 6: 
 
-- insert part A answer here
+- The total electricity consumption under the new home solar generation is 339104 kWh.
 
-- insert part B answer here
+-  The total environmental externality is 664643 cents, or $6,646.43. 
 
 - To determine what value of the electricity tax makes the total environmental damage equal to that under the scenario of solar panels being available to the high income group, we plotted the environmental damages against the tax being applied from #5, fit a linear regression to the data, and then plugged in the environmental damages from #6B into the equation to solve for the tax required. The calculated tax is `r round(tax_equal,3)` cents per kWh. 
