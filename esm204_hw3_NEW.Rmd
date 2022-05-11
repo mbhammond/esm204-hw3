@@ -113,7 +113,7 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
 
 ```{r}
 #TAX DERIVED FROM SCC - CHANGE ONLY THIS VALUE FOR #5?
-tax_amount <- 1.96
+tax_amount <- 5.78
 
 #Question 2: Aggregate demand function
 #Qagg = Ql+Qh = (23.37-Pl)/0.00011 + (31.16-Ph)/0.00005
@@ -360,11 +360,20 @@ producer_surplus <- ps_msc(p_social, q_social)
 Question 5: 
 PUT ANSWER HERE
 
-- **high income total welfare is `r consumer_benefit_social_high/100` dollars.
+- **high income consumer surplus is `r consumer_benefit_social_high/100` dollars.
 
-- **low income total welfare is `r consumer_benefit_social_low/100` dollars.
+- **low income consumer surplus is `r consumer_benefit_social_low/100` dollars.
 
 - **producer surplus is `r producer_surplus/100` dollars.
+
+- social q agg is `r q_social`
+
+- social cost agg is `r p_social`
+
+- social q low `r q_social_low`
+
+- social q high `r q_social_high`
+
 
 
 ```{r}
