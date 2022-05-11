@@ -1,6 +1,6 @@
 ---
 title: "ESM 204 HW 3"
-author: "Sarah Hamilton, Carleigh Osen, and Maggie Hammond"
+author: "Sarah Hamilton, Caroline Shepherd, and Maggie Hammond"
 date: "5/2/2022"
 output: 
   html_document:
@@ -11,7 +11,7 @@ output:
     toc_float: yes
     collapsed: yes
     smooth_scroll: yes
-    number_sections: yes
+    number_sections: no
 editor_options:
   chunk_output_type: console
 ---
@@ -112,6 +112,9 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
 
 # Calculate Aggregate Demand and Supply Curves and Plot Them
 
+### Question 1:
+The marginal externality cost per kWh is 1.96 cents/kWh
+
 ```{r}
 #TAX DERIVED FROM SCC - CHANGE ONLY THIS VALUE FOR #5?
 tax_amount <- 5.78
@@ -140,11 +143,13 @@ equilibrium_status_quo <- function(x){28.7-x/29091-0.000018*x}
 #with tax equilibrium function
 equilibrium_tax <- function(x){28.7-x/29091-tax_amount-0.000018*x}
 
-#with tax high and low income functions #IDK IF THESE ARE RIGHT
+#with tax high and low income functions 
 low_mb_tax <- function(x){(23.37-tax_amount)-.00011*x}
 high_mb_tax <- function(x){(31.16-tax_amount)- 5.202e-05*x}
 low_mb_tax_q <- function(x){((23.37-tax_amount)-x)/0.00011}
 high_mb_tax_q <- function(x){((31.16-tax_amount)-x)/5.202e-05}
+
+caption <- "Figure 2: Supply and demand curves for electricity for a high and low income population. The purple line represents the low income marginal benefit, the orange line represents the high income marginal benefit. The yellow line models demand aggregate. The blue line represents the MEC. The green line models the marginal private cost. The pink line represents the demand aggregate tax"
 
 #Plot all functions
 ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
@@ -161,7 +166,7 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
   labs(x = "Quantity (kWh)",
        y = "Price per kWh (cents)",
        color = "Income Level",
-      caption = "Figure 2: Supply and demand curves for electricity for a high and low income population.") +
+      caption = str_wrap(caption)) +
   theme_minimal()
 ```
 
@@ -238,7 +243,8 @@ producer_benefit_sq <- ps_mpc(p_free, q_free)
 total_environmental_cost <- env_costs(q_free)
 ```
 
-Question 2 (cont.): Under status quo, consumer surplus is `r consumer_benefit_sq/100` dollars and producer surplus is `r producer_benefit_sq/100` dollars. The total environmental cost under status quo is `r total_environmental_cost/100` dollars.
+### Question 2: 
+Aggregate monthly demand curve for electricity can be expressed as `P = 28.7-Q/2909`. Under status quo, consumer surplus is `r consumer_benefit_sq/100` dollars and producer surplus is `r producer_benefit_sq/100` dollars. The total environmental cost under status quo is `r total_environmental_cost/100` dollars.
 
 # Calculate High and Low Income Consumer Benefits
 
@@ -265,7 +271,8 @@ consumer_benefit_sq_low <- cs_mpc_low(p_free, q_free, q_free_low)
 
 ```
 
-Question 3 (cont.): The consumer benefit for high income consumers is `r consumer_benefit_sq_high/100` dollars while the consumer benefit for low income consumers is `r consumer_benefit_sq_low/100` dollars. High income consumers have a significantly higher benefit. 
+### Question 3: 
+The consumer benefit for high income consumers is `r consumer_benefit_sq_high/100` dollars while the consumer benefit for low income consumers is `r consumer_benefit_sq_low/100` dollars. High income consumers have a significantly higher benefit. 
 
 # Derive the Optimal Tax 
 
@@ -312,7 +319,7 @@ tax_rev <- q_social*mec(q_social)
 
 ```
 
-Question 4: 
+### Question 4: 
 
 - Effect of tax on the amount of electricity produced and consumed: `r q_change` kWh LESS are produced and consumed.
 
@@ -356,29 +363,16 @@ producer_surplus <- ps_msc(p_social, q_social)
 
 ```
 
-Question 5: 
-The answer to question a, b, and c can be found in the table created in the code produced above. 
+### Question 5: 
+The answer to question a, b, and c can be found in the table created below.
 
-- **high income consumer surplus is `r consumer_benefit_social_high/100` dollars.
-
-- **low income consumer surplus is `r consumer_benefit_social_low/100` dollars.
-
-- **producer surplus is `r producer_surplus/100` dollars.
-
-- social q agg is `r q_social`
-
-- social cost agg is `r p_social`
-
-- social q low `r q_social_low`
-
-- social q high `r q_social_high`
 
 
 
 ```{r}
 q5 <- read_csv(here("q5excel.csv")) %>% 
   clean_names()
-#note to maggie: we probably dont wanna clean names here bc you formatted the excel names to be nice
+
 
 
 
@@ -419,6 +413,7 @@ high_mb_solar <- function(x){(31.16/2) - 5.202e-05*x}
 d_agg <- function(x){18.081-3.53e-05*x}
 mpc <- function(x){0.000018*x}
 
+caption2 <- "Figure 3: Supply and demand curves for electricity for a high and low income population.The purple line models low marginal benefit, the orange line models high marginal benefit. The yellow line models aggregate demand. The green line models marginal private cost."
 
 ggplot() +
   scale_color_manual(values = c('orange', 'purple2', 'yellow', 'blue', 'green', 'pink')) +
@@ -431,7 +426,7 @@ ggplot() +
   labs(x = "Quantity (kWh)",
        y = "Price per kWh (cents)",
        color = "Income Level",
-      caption = "Figure 2: Supply and demand curves for electricity for a high and low income population.") +
+      caption = str_wrap(caption2)) +
   theme_minimal()
 
 # find the total electricity consumption, do this by finding the equilibrium between MPC and new Dagg
@@ -466,7 +461,7 @@ ggplot(data = q5_clean, aes(x = mec, y = env_damage)) +
   
 ```
 
-Question 6: 
+### Question 6: 
 
 - The total electricity consumption under the new home solar generation is 339104 kWh.
 

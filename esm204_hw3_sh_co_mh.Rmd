@@ -395,3 +395,19 @@ Question 6:
 - insert part B answer here
 
 - To determine what value of the electricity tax makes the total environmental damage equal to that under the scenario of solar panels being available to the high income group, we plotted the environmental damages against the tax being applied from #5, fit a linear regression to the data, and then plugged in the environmental damages from #6B into the equation to solve for the tax required. The calculated tax is `r round(tax_equal,3)` cents per kWh. 
+
+
+
+- **high income consumer surplus is `r consumer_benefit_social_high/100` dollars.
+
+- **low income consumer surplus is `r consumer_benefit_social_low/100` dollars.
+
+- **producer surplus is `r producer_surplus/100` dollars.
+
+- social q agg is `r q_social`
+
+- social cost agg is `r p_social`
+
+- social q low `r q_social_low`
+
+- social q high `r q_social_high`
