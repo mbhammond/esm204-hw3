@@ -1,6 +1,6 @@
 ---
 title: "ESM 204 HW 3"
-author: "Sarah Hamilton, Carleigh Osen, and Maggie Hammond"
+author: "Sarah Hamilton, Caroline Shepherd, and Maggie Hammond"
 date: "5/2/2022"
 output: 
   html_document:
