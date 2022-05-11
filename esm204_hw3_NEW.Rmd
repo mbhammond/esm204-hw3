@@ -176,8 +176,6 @@ ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
 q_free <- uniroot(equilibrium_status_quo, c(0,600000))$root
 p_free <- d_agg(q_free)
 
-#**********
-
 q_free_high <- high_mb_tax_q(p_free) #***
 q_free_low <- low_mb_tax_q(p_free) #***
 
