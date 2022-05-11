@@ -149,7 +149,7 @@ high_mb_tax <- function(x){(31.16-tax_amount)- 5.202e-05*x}
 low_mb_tax_q <- function(x){((23.37-tax_amount)-x)/0.00011}
 high_mb_tax_q <- function(x){((31.16-tax_amount)-x)/5.202e-05}
 
-caption <- "Figure 2: Supply and demand curves for electricity for a high and low income population. The purple line represents the low income marginal benefit, the orange line represents the high income marginal benefit. The yellow line models demand aggregate. The blue line represents the MEC. The green line models the marginal private cost. The pink line represents the demand aggregate tax"
+caption <- "Figure 2: Supply and demand curves for electricity for a high and low income population. The purple line represents the low income marginal benefit, the orange line represents the high income marginal benefit. The yellow line models aggregate demand. The blue line represents the marginal external cost (MEC). The green line models the marginal private cost (MPC). The pink line represents the aggregate demand with a tax applied."
 
 #Plot all functions
 ggplot(data = co2_cost_income, aes(y = price_cents, x = q_kwh)) +
@@ -244,7 +244,7 @@ total_environmental_cost <- env_costs(q_free)
 ```
 
 ### Question 2: 
-Aggregate monthly demand curve for electricity can be expressed as `P = 28.7-Q/2909`. Under status quo, consumer surplus is `r consumer_benefit_sq/100` dollars and producer surplus is `r producer_benefit_sq/100` dollars. The total environmental cost under status quo is `r total_environmental_cost/100` dollars.
+Aggregate monthly demand curve for electricity can be expressed as `P = 28.7-Q/2909`. Under status quo, consumer surplus is `r round(consumer_benefit_sq/100,0)` dollars and producer surplus is `r round(producer_benefit_sq/100,0)` dollars. The total environmental cost under status quo is `r round(total_environmental_cost/100,0)` dollars.
 
 # Calculate High and Low Income Consumer Benefits
 
@@ -272,7 +272,7 @@ consumer_benefit_sq_low <- cs_mpc_low(p_free, q_free, q_free_low)
 ```
 
 ### Question 3: 
-The consumer benefit for high income consumers is `r consumer_benefit_sq_high/100` dollars while the consumer benefit for low income consumers is `r consumer_benefit_sq_low/100` dollars. High income consumers have a significantly higher benefit. 
+The consumer benefit for high income consumers is `r round(consumer_benefit_sq_high/100,0)` dollars while the consumer benefit for low income consumers is `r round(consumer_benefit_sq_low/100,0)` dollars. High income consumers have a significantly higher benefit. 
 
 # Derive the Optimal Tax 
 
@@ -283,7 +283,7 @@ The optimal tax is equal to the marginal external cost at the socially optimal e
 q_change <- q_free - q_social
 
 #Effect of tax on the price of electricity (change in P)
-p_change <- p_social - p_free
+p_change <- p_free - p_social
 
 #Effect of tax on overall welfare of high income consumers
 cs_msc_high <- function(p_social, q_social, q_social_high){
@@ -321,19 +321,19 @@ tax_rev <- q_social*mec(q_social)
 
 ### Question 4: 
 
-- Effect of tax on the amount of electricity produced and consumed: `r q_change` kWh LESS are produced and consumed.
+- Effect of tax on the amount of electricity produced and consumed: `r round(q_change,0)` kWh LESS are produced and consumed.
 
-- Effect of tax on the price of electricity: Electricity is `r p_change` cents more expensive per kWh.
+- Effect of tax on the price of electricity: Electricity is `r round(p_change,2)` cents less expensive per kWh because with a tax, part of the willingness to pay is going towards paying the tax to the government.
 
-- Effect of tax on overall welfare of high income consumers: High income consumers get `r high_income_change/100` dollars less of surplus.
+- Effect of tax on overall welfare of high income consumers: High income consumers get `r round(high_income_change/100,0)` dollars more of surplus.
 
-- Effect of tax on overall welfare of low income consumers: Low income consumers get `r low_income_change/100` dollars less of surplus.
+- Effect of tax on overall welfare of low income consumers: Low income consumers get `r round(-1*low_income_change/100,0)` dollars less of surplus.
 
-- Effect of tax on overall welfare of electricity producers: Producers get `r producer_change/100` dollars less of surplus.
+- Effect of tax on overall welfare of electricity producers: Producers get `r round(producer_change/100,0)` dollars less of surplus.
 
-- Effect of tax on total environmental damage: Environmental damage decreases by `r env_costs_change/100` dollars.
+- Effect of tax on total environmental damage: Environmental damage decreases by `r round(env_costs_change/100,0)` dollars.
 
-- Effect of tax on total tax revenue generated: Tax revenue will increase by `r tax_rev/100` dollars. 
+- Effect of tax on total tax revenue generated: Tax revenue will increase by `r round(tax_rev/100,0)` dollars. 
 
 
 # Welfare Effects of Varying Social Cost of Carbon
